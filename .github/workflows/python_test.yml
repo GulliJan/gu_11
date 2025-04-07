@@ -1,0 +1,27 @@
+name: Execute Lowest Number Tests
+
+on: [push]
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Execute Test Cases
+      run: |
+        mkdir output
+
+        for i in 1 2 3
+        do
+          echo "Processing test case $i..."
+          python find_lowest_number.py test_data/test${i}_input.txt output/test${i}_output.txt
+          diff output/test${i}_output.txt test_data/test${i}_expected.txt
+        done
